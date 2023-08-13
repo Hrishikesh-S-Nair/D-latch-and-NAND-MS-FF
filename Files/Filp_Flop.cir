@@ -1,0 +1,64 @@
+*Filp_Flop
+* NAND-MSF F using eight NAND gates and an inverter
+*--------------------------------------------------
+.include modelcard.pmos
+.include modelcard.nmos
+.model nmos nmos level=1 vto=0.5 kp=20u
+.model pmos pmos level=1 vto=-0.5 kp=10u
+*--------------------------------------------------
+* Input signals
+Vclk clk gnd pulse(0 1.8 0 5p 5p 10n 20n)
+Vs s gnd pulse(0 1.8 0 10p 10p 1n 2n)
+Vr r gnd pulse(0 1.8 0 20p 10p 1n 2n)
+*---------------------------------------------------
+* NAND gates
+*---------------------------------------------------
+M1 a b vdd vdd pmos L=90n W=20.0U
+M2 a b gnd gnd nmos L=90n W=10.0U
+M3 c d vdd vdd pmos L=90n W=20.0U
+M4 c d gnd gnd nmos L=90n W=10.0U
+M5 b e vdd vdd pmos L=90n W=20.0U
+M6 b e gnd gnd nmos L=90n W=10.0U 
+M7 d f vdd vdd pmos L=90n W=20.0U
+M8 d f gnd gnd nmos L=90n W=10.0U
+M9 g h vdd vdd pmos L=90n W=20.0U
+M10 g h gnd gnd nmos L=90n W=10.0U
+M11 e i vdd vdd pmos L=90n W=20.0U
+M12 e i gnd gnd nmos L=90n W=10.0U
+M13 f j vdd vdd pmos L=90n W=20.0U
+M14 f j gnd gnd nmos L=90n W=10.0U
+M15 h k vdd vdd pmos L=90n W=20.0U
+M16 h k gnd gnd nmos L=90n W=10.0U
+M17 i vdd vdd vdd pmos L=90n W=20.0U
+M18 i gnd gnd gnd nmos L=90n W=10.0U
+M19 j l vdd vdd pmos L=90n W=20.0U
+M20 j l gnd gnd nmos L=90n W=10.0U
+M21 k m vdd vdd pmos L=90n W=20.0U
+M22 k m gnd gnd nmos L=90n W=10.0U
+M23 n o vdd vdd pmos L=90n W=20.0U
+M24 n o gnd gnd nmos L=90n W=10.0U
+*----------------------------------------------------
+* Inverter
+*----------------------------------------------------
+M25 p q vdd vdd pmos
+M26 p q gnd gnd nmos
+*----------------------------------------------------
+* Capacitances
+C1 s gnd 1f
+C2 r gnd 1f
+C3 clk gnd 1f
+C4 a gnd 1f
+C5 c gnd 1f
+C6 g gnd 1f
+C7 n gnd 1f
+*-----------------------------------------------------
+* Trasient Analysis
+*-----------------------------------------------------
+.tran 0.1n 100n
+.control
+run
+plot v(s) v(r) v(clk)
+plot v(a) v(b) v(c) v(d) v(e) v(f) v(g) v(h) v(i) v(j) v(k) v(l) v(m) v(n) v(o)
+plot v(q) v(p)
+.endc
+.end
